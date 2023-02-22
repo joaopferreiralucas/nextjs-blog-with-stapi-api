@@ -1,5 +1,21 @@
-export default function Home() {
+import { GetStaticProps } from 'next';
+import HomePage from '../containers/HomePage';
+import { getAllPosts } from '../data/posts/get-all-posts';
+import { PostData } from '../domain/posts/post';
+
+export type HomeProps = {
+  posts: PostData[]
+};
+
+export default function Home({ posts }: HomeProps) {
   return (
-    <h1>Alou</h1>
+    <HomePage posts={posts} />
   );
 }
+
+export const getStaticProps:GetStaticProps = async () => {
+  const posts = await getAllPosts();
+  return {
+    props: { posts },
+  };
+};
